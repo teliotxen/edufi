@@ -1,4 +1,5 @@
 from django.db import models
+
 # Create your models here.
 
 
@@ -16,7 +17,7 @@ class Quiz(models.Model):
     word3_switch = models.CharField(max_length=20, blank=True)
     word3_korean = models.CharField(max_length=20, blank=True)
 
-    english = models.CharField(max_length=200, blank=False)
+    english = models.CharField(max_length=200, blank=False, unique=True)
     korean = models.CharField(max_length=200, blank=False)
 
 
