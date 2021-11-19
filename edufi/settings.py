@@ -26,9 +26,18 @@ SECRET_KEY = 'django-insecure-n5drsxbel9c_c5nex&+f!rc-#rq!hn2rbn9mqj&4a)fivk8^-$
 DEBUG = True
 
 ALLOWED_HOSTS = []
-LOGIN_URL = '/login/'
-
+LOGIN_URL = 'accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 # Application definition
+
+AUTHENTICATION_BACKENDS = (
+    # allauth 와 상관없이 username 으로 장고 어드민에 로그인이 필요할때
+    'django.contrib.auth.backends.ModelBackend',
+
+    # 'allauth' 특화 인증 방법, e-mail로 로그인 하는것 같은것
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'english',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

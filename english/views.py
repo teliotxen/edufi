@@ -5,6 +5,7 @@ from .forms import UploadFileForm, DataTable
 from .models import Quiz, uploadFileModel
 from .tests import bulk_input
 from django.core import serializers
+import json
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -12,13 +13,17 @@ from django.contrib.auth.decorators import login_required
 # @login_required
 def game_view(request):
 
+    #AJAX GET - get type을 확인해서 적절한 내용을 GET 하게 할 수 있다.
     if request.GET:
-        temp = '3'
+        temp = '4'
         json_data = Quiz.objects.filter(level=temp)
+        json_object = serializers.serialize("json", json_data)
+        return JsonResponse(json_object, safe=False)
 
-        if request.GET:
-            json_object = serializers.serialize("json", json_data)
-            return JsonResponse(json_object, safe=False)
+    #AJAX POST
+    if request.POST:
+        print(type(request.body))
+        print(json.loads(request.body))
 
     return render(request, 'english/game_view.html')
 
