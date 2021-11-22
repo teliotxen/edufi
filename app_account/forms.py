@@ -11,7 +11,7 @@ class UserForm(forms.ModelForm):
 class AgreementForm(forms.ModelForm):
     class Meta:
         model = Agreement
-        fields = ['term_agreement', 'private_agreement', 'geoLocation_agreement', 'provide_third_parties_agreement', 'marketing_agreement', 'email_marketing_agreement', 'sms_agreement', ]
+        fields = ['user','term_agreement', 'private_agreement', 'geoLocation_agreement', 'provide_third_parties_agreement', 'marketing_agreement', 'email_marketing_agreement', 'sms_agreement', ]
         widgets = {
             'term_agreement': forms.CheckboxInput,
             'private_agreement': forms.CheckboxInput,

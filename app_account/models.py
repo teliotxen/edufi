@@ -49,7 +49,7 @@ class User(AbstractUser):
 
 
 class Agreement(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     term_agreement = models.BooleanField(null=True, )
     private_agreement = models.BooleanField(null=True, )
     geoLocation_agreement = models.BooleanField(null=True )

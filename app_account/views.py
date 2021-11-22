@@ -68,7 +68,18 @@ def agreement_view(request):
 
     #post
     if request.POST:
+        print(request.POST.keys())#
+        #폼 형식으로 처리하지 말고 각자 저장하는 방식
+
         agreement_form = AgreementForm(request.POST)
+        agreement_form.user = request.user
+        # print(agreement_form.term_agreement)
+        if agreement_form.is_valid():
+            # form.cleaned_data 데이타를 요청받은대로 처리한다(여기선 그냥 모델 due_back 필드에 써넣는다)
+            # agreement_form.user = request.user
+            agreement_form.user = request.user
+            agreement_form.save()
+
         if user_info.parent:
             print('parent')
             return redirect('index')
