@@ -13,6 +13,8 @@ import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import requests
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -28,6 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+ACCOUNT_SIGNUP_REDIRECT_URL = "/agreement/"
+AUTH_USER_MODEL = 'app_account.User'
+ACCOUNT_LOGOUT_ON_GET = True
+
 # Application definition
 
 AUTHENTICATION_BACKENDS = (
@@ -47,12 +53,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'english',
+    'app_account',
+
+    # Allauth를 위한 Apps
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'users',
+
+    #multi select field
+    'multiselectfield',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SITE_ID = 1
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -142,3 +155,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Allauth 관련 설정
+
+

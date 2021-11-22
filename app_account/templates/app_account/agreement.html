@@ -1,0 +1,14 @@
+<html>
+<body>
+<h1>hello</h1>
+</body>
+<form method="post">{% csrf_token %}
+
+    <label for="team_name">Enter name: </label>
+    <input id="team_name" type="text" name="name_field" value="Default name for team.">
+    <input type="submit" value="OK">
+
+</form>
+
+{{ form }}
+</html>

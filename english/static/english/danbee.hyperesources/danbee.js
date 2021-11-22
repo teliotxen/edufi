@@ -15,5 +15,7 @@
     .fail(function(xhr, status, errorThrown) {
         console.log('fail')
     })
-
+    .always(function(xhr, status) {
+        console.log('done')
+    });
 }
