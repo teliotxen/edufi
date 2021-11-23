@@ -1,4 +1,12 @@
 {% load static %}
+{% load widget_tweaks %}
 <a href="{% url 'game' %}">이동</a>
 <a href="accounts/logout/">로그아웃</a>
 
+{{ data }}
+
+{% if user.parent %}
+    <p>teacher</p>
+{% else %}
+    <p>student</p>
+{% endif %}

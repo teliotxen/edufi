@@ -1,32 +1,30 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
-from .models import User
+from django.views.generic import CreateView, UpdateView
+from .models import User, Agreement
+from app_account.forms import AgreementForm, AditionalInfoForm
+from .decorators import deco
+from django.urls import reverse
+
+from django.http import HttpResponse
 from django.core import serializers
-from allauth.account.views import SignupView
-# Create your views here.
-from app_account.forms import AgreementForm
-
-def deco(func):
-    def decorator(*args, **kwargs):
-        # if request.COOKIES['test']:
-        #     print('cookie')
-        # else:
-        #     print('none')
-        print("%s %s" % (func.__name__, "before"))
-        result = func(*args, **kwargs)
-        print("%s %s" % (func.__name__, "after"))
-        result.set_cookie('test', 'text', max_age=300000 )
-        return result
-
-    return decorator
 
 
 #index view
 @login_required
+@deco
 def index_view(request):
-
-    return render(request, 'app_account/index.html')
+    user_data = User.objects.get(id=request.user.id)
+    request.session['parent'] = user_data.parent
+    request.session['router'] = user_data.router
+    context = {
+        'data': request.session['parent'],
+        'user': user_data
+    }
+    return render(request, 'app_account/index.html', context)
 
 
 #profile view
@@ -47,7 +45,6 @@ def profile_view(request, **kwargs):
 
 
 #agreement_view
-
 def agreement_view(request):
     #초기 실행
     user_info = User.objects.get(id=request.user.id)
@@ -64,43 +61,96 @@ def agreement_view(request):
         user_info.parent = True
         user_info.save()
 
-
-
     #post
     if request.POST:
-        print(request.POST.keys())#
-        #폼 형식으로 처리하지 말고 각자 저장하는 방식
-
         agreement_form = AgreementForm(request.POST)
-        agreement_form.user = request.user
-        # print(agreement_form.term_agreement)
-        if agreement_form.is_valid():
-            # form.cleaned_data 데이타를 요청받은대로 처리한다(여기선 그냥 모델 due_back 필드에 써넣는다)
-            # agreement_form.user = request.user
-            agreement_form.user = request.user
-            agreement_form.save()
+        test = Agreement()
+        selected_value = request.POST.keys()
+        # print(selected_value)
+        for item in selected_value:
+            print(item)
+
+        test.term_agreement = True
+        test.private_agreement = True
+        test.user = request.user
+        test.save()
+        print(test)
 
         if user_info.parent:
             print('parent')
             return redirect('index')
         else:
             print('child')
-            return redirect('additional')
+            return reverse("additional", kwargs={"id": request.user.id})
+
 
     agreement_form = AgreementForm()
     context = {
         'form': agreement_form,
     }
-
     return render(request, 'app_account/agreement.html',context)
 
 
-#추가정보
-def additional_info(request):
-    if request.POST:
-        return redirect('index')
-    return render(request, 'app_account/additional_info.html')
+class AgreementView(CreateView):
+    model = Agreement
+    context_object_name = 'form'
+    form_class = AgreementForm
+    template_name = 'app_account/agreement.html'
+    # success_url = '/'
 
+    def dispatch(self, request, *args, **kwargs):
+        data = Agreement.objects.filter(id=request.user.id).count()
+        if request.user.is_authenticated and data == 0:
+            return super(AgreementView, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+    def form_valid(self, form):
+        form.instance.id = self.request.user.id
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        #최초 학부모 등록 관련 로직 넣기
+
+        target = Agreement.objects.get(id=self.request.user.id)
+        target.user = self.request.user
+        target.save()
+        if self.request.user.parent:
+            return redirect('index')
+        else:
+            return reverse("additional", kwargs={"id": self.request.user.id})
+
+
+
+#추가정보
+class AdditionalCreateView(UpdateView):
+    model = User
+    context_object_name = 'form'
+    form_class = AditionalInfoForm
+    template_name = 'app_account/additional_info.html'
+    success_url = '/'
+    pk_url_kwarg = 'id'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.id == self.get_object().id:
+            return super(AdditionalCreateView, self).dispatch(request, *args, **kwargs)
+        elif request.user.parent and request.user.router == self.get_object().router:
+            return super(AdditionalCreateView, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        birthday = self.get_object().birthday
+        str_year = str(birthday).split('-')
+        year = int(str_year[0])
+        str_now = str(datetime.datetime.now()).split('-')
+        now_year = int(str_now[0])
+        calc = now_year - year + 1
+        print(calc)
+        context['year'] = calc
+        return context
+    # def get_queryset(self):
 
 
     #User.objects.create_user('navio',None,'tedsdcds1')

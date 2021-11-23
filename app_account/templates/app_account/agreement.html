@@ -1,12 +1,20 @@
+{% load widget_tweaks %}
 <html>
 <body>
 <h1>hello</h1>
 </body>
 
 <form method="post">{% csrf_token %}
-    {{ form.term_agreement }}
+    <p>term_agreement : {{ form.term_agreement }}</p>
+    <p>private_agreement : {{ form.private_agreement }}</p>
+    <p>geoLocation_agreement : {{ form.geoLocation_agreement }}</p>
+    <p>provide_third_parties_agreement : {{ form.provide_third_parties_agreement }}</p>
+    <p>marketing_agreement : {{ form.marketing_agreement }}</p>
+    <p>email_marketing_agreement : {{ form.email_marketing_agreement }}</p>
+    <p>sms_agreement : {{ form.sms_agreement }}</p>
 
     <input type="submit" value="OK">
+
 
 </form>
 </html>

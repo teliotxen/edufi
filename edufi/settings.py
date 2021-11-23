@@ -63,6 +63,7 @@ INSTALLED_APPS = [
 
     #multi select field
     'multiselectfield',
+    'widget_tweaks',
 ]
 
 SITE_ID = 1
@@ -128,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

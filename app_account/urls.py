@@ -12,14 +12,18 @@ urlpatterns = [
         name='profile'
     ),
     path(
-        'agreement/',
-        views.agreement_view,
+        'term/',
+        views.AgreementView.as_view(),
         name='agreement'
     ),
     path(
-        'additional/',
-        views.additional_info,
+        'user_info/<int:id>/',
+        views.AdditionalCreateView.as_view(),
         name='additional'
     ),
+
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
