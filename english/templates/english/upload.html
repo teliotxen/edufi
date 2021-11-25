@@ -5,6 +5,50 @@
     <title>Title</title>
 </head>
 <body>
+    <table>
+        {% for datum in data %}
+            <tr>
+                <td>
+                    <input type="text" value="{{ datum.level }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.english }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.korean }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word1 }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word1_switch }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word1_korean }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word2 }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word2_switch }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word2_korean }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word3 }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word3_switch }}">
+                </td>
+                <td>
+                    <input type="text" value="{{ datum.word3_korean }}">
+                </td>
+            </tr>
+    {% endfor %}
+
+    </table>
+
 
 </body>
 </html>

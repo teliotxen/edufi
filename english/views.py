@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UploadFileForm, DataTable
 from .models import Quiz, uploadFileModel
-from .tests import bulk_input
+from .uploader import bulk_input
 from django.core import serializers
 import json
 from django.contrib.auth.decorators import login_required
@@ -13,10 +13,12 @@ from django.contrib.auth.decorators import login_required
 # @login_required
 def game_view(request):
 
+    sample_list = [1, 3, 5, 7, 9]  # 이 친구를 어떻게 배열할 것인가 그것이 문제가 됨
+    json_data = Quiz.objects.filter(id__in=sample_list)
+    print(json_data)
+
     #AJAX GET - get type을 확인해서 적절한 내용을 GET 하게 할 수 있다.
     if request.GET:
-        temp = '4'
-        json_data = Quiz.objects.filter(level=temp)
         json_object = serializers.serialize("json", json_data)
         return JsonResponse(json_object, safe=False)
 
@@ -30,15 +32,19 @@ def game_view(request):
 
 
 def data_upload(request):
-    try:
-        datum = uploadFileModel.objects.values().last()
-        bulk_input(datum['file'])
-        return render(request, 'english/upload.html', context={'form':""})
+    datum = uploadFileModel.objects.values().last()
+    print(bulk_input(datum['file']))
+    context = bulk_input(datum['file'])
 
-    except:
-        raise Http404("Question does not exist")
+    if request.POST:
+        try:
+            Quiz.objects.bulk_create(bulk_input(datum['file']))
+            return render(request, 'english/upload.html', context={'form':""})
 
+        except:
+            raise Http404("Question does not exist")
 
+    return render(request, 'english/upload.html', context={'data': context})
 
 def upload_file(request):
     if request.method == 'POST':
@@ -49,7 +55,7 @@ def upload_file(request):
             console = string_list[-1]
             if 'csv' == console:
                 form.save()
-                return HttpResponseRedirect('/upload/')
+                return render(request, 'english/uploader.html')
             else:
                 return render(request, 'english/uploader.html', context={'error':'csv 파일을 넣으세요','form': form})
 
