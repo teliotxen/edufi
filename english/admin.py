@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Quiz, uploadFileModel
+from .models import Quiz, uploadFileModel, UserAnswer
 # Register your models here.
 
 class QuizAdmin(admin.ModelAdmin):
@@ -15,3 +15,4 @@ class QuizAdmin(admin.ModelAdmin):
 
 admin.site.register(Quiz,QuizAdmin)
 admin.site.register(uploadFileModel)
+admin.site.register(UserAnswer)

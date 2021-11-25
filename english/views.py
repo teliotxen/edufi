@@ -15,7 +15,14 @@ def game_view(request):
 
     sample_list = [1, 3, 5, 7, 9]  # 이 친구를 어떻게 배열할 것인가 그것이 문제가 됨
     json_data = Quiz.objects.filter(id__in=sample_list)
-    print(json_data)
+
+    answer_sheet = []
+    for datum in json_data:
+        matter = [datum.id,datum.english, datum.korean, datum.word1, datum.word2, datum.word3]
+        answer_sheet.append(matter)
+
+    print(answer_sheet)
+
 
     #AJAX GET - get type을 확인해서 적절한 내용을 GET 하게 할 수 있다.
     if request.GET:

@@ -29,6 +29,7 @@ class uploadFileModel(models.Model):
 class UserAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     level = models.CharField(max_length=20, blank=True)
+    score = models.CharField(max_length=20, blank=True)
     sentence1 = models.CharField(max_length=500, blank=True)
     sentence2 = models.CharField(max_length=500, blank=True)
     sentence3 = models.CharField(max_length=500, blank=True)
