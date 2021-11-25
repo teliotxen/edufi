@@ -21,6 +21,13 @@ urlpatterns = [
         views.AdditionalCreateView.as_view(),
         name='additional'
     ),
+    path(
+        'term_update/<int:pk>/',
+        views.AgreementUpdateView.as_view(),
+        name='agreement_update'
+    ),
+
+
 
 
 

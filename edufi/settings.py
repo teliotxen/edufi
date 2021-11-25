@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-ACCOUNT_SIGNUP_REDIRECT_URL = "/agreement/"
+ACCOUNT_SIGNUP_REDIRECT_URL = "/term/"
 AUTH_USER_MODEL = 'app_account.User'
 ACCOUNT_LOGOUT_ON_GET = True
 

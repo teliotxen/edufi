@@ -1,20 +1,53 @@
 {% load widget_tweaks %}
 <html>
+<head>
+    <script>
+        var checkbox = document.querySelectorAll('.term-check');
+        var btn = document.getElementById('btn');
+
+        window.onload = function() {
+            document.getElementById('submit').onclick = function() {
+                if (checkbox[0].checked && checkbox[1].checked && checkbox[2].checked && checkbox[3].checked && checkbox[4].checked){
+
+                }else{
+                    alert('필수 동의내용을 확인해 주세요.')
+                    return false;
+                }
+
+            };
+        };
+    </script>
+</head>
 <body>
 <h1>hello</h1>
 </body>
 
-<form method="post">{% csrf_token %}
-    <p>term_agreement : {{ form.term_agreement }}</p>
-    <p>private_agreement : {{ form.private_agreement }}</p>
-    <p>geoLocation_agreement : {{ form.geoLocation_agreement }}</p>
-    <p>provide_third_parties_agreement : {{ form.provide_third_parties_agreement }}</p>
-    <p>marketing_agreement : {{ form.marketing_agreement }}</p>
-    <p>email_marketing_agreement : {{ form.email_marketing_agreement }}</p>
-    <p>sms_agreement : {{ form.sms_agreement }}</p>
 
-    <input type="submit" value="OK">
+{{ object.dt_created }}
 
 
+<form method="post" id="term-form">{% csrf_token %}
+    <p>term_agreement : {{ form.term_agreement |add_class:'term-check' }}</p>
+    <p>private_agreement : {{ form.private_agreement |add_class:'term-check'}}</p>
+    <p>geoLocation_agreement : {{ form.geoLocation_agreement |add_class:'term-check'}}</p>
+    <p>provide_third_parties_agreement : {{ form.provide_third_parties_agreement |add_class:'term-check'}}</p>
+    <p>marketing_agreement : {{ form.marketing_agreement |add_class:'term-check'}}</p>
+    <p>email_marketing_agreement : {{ form.email_marketing_agreement |add_class:'term-check'}}</p>
+    <p>sms_agreement : {{ form.sms_agreement |add_class:'term-check'}}</p>
+{#    <input type="submit" value="OK">#}
+    <button id="submit">제출하기</button>
 </form>
+<button id="btn">체크하기</button>
+<script>
+    var checkbox = document.querySelectorAll('.term-check');
+    var btn = document.getElementById('btn');
+
+    btn.addEventListener('click', function(){
+        for (var item of checkbox){
+            item.checked = true;
+
+        }
+    })
+
+</script>
 </html>

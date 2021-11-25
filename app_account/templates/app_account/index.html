@@ -1,12 +1,82 @@
 {% load static %}
 {% load widget_tweaks %}
+
+<html>
+<head>
+    <script>
+        window.onload = function() {
+            var childDetail = document.querySelectorAll('.child-detail')
+
+            if (childDetail.length !=0){
+                for (var i=0; i<childDetail.length; i++){
+                    childDetail[i].style.display = 'none'
+                }
+                childDetail[0].style.display = 'inline'
+            }
+
+
+        };
+
+    </script>
+</head>
+<body>
 <a href="{% url 'game' %}">이동</a>
 <a href="accounts/logout/">로그아웃</a>
-
-{{ data }}
-
 {% if user.parent %}
     <p>teacher</p>
 {% else %}
     <p>student</p>
 {% endif %}
+
+{% if user.parent %}{% comment %}prarent{% endcomment %}
+    {% if router.count < 1 %}
+        <div><p>등록된 학생이 없습니다.</p></div>
+    {% else %}
+        {% for datum in router %}
+            <div><a href="#" onclick="choose({{ forloop.counter0 }})" class="child-list">{{ datum }}</a></div>
+        {% endfor %}
+    {% endif %}
+    <div><a href="#">등록</a></div>
+
+    <h1>세부항목</h1>
+
+    {% if router.count < 1 %}
+        <div><p>등록된 학생이 없습니다.</p></div>
+    {% else %}
+        {% for datum in router %}
+        <div class="child-detail">
+            <p>{{ datum.username }}</p>
+            <p>{{ datum.get_time }} </p>
+            <p><a href="{% url 'additional' datum.id%}">수정</a></p>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+{% else %}{% comment %}children{% endcomment %}
+    <p>이용 가능 시간</p>
+    <span>{{ user.get_time }} / {{ user.max_time }}</span>
+
+{% endif %}
+
+
+
+
+
+
+    {% comment %}javascript{% endcomment %}
+    <script>
+        function choose(number){
+            var childDetail = document.querySelectorAll('.child-detail')
+            if (childDetail.length !=0){
+                for (var i=0; i<childDetail.length; i++){
+                    childDetail[i].style.display = 'none'
+                }
+                childDetail[number].style.display = 'inline'
+            }
+        }
+    </script>
+
+</body>
+
+</html>
+
