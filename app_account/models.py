@@ -31,7 +31,15 @@ class User(AbstractUser):
     identification = models.CharField(max_length=30, null=True) #parents PK
     router = models.CharField(null=True, max_length=30)
     get_time = models.IntegerField(null=True)
-    max_time = models.IntegerField(null=True)
+    dt_created = models.DateTimeField(auto_now_add=True)
+    dt_updated = models.DateTimeField(auto_now=True)
+
+    self_objects = UserManager()
+
+
+class Router(models.Model):
+    router_id = models.CharField(max_length=20, unique=True)
+    max_time = models.IntegerField()
     DATE_LIST = [
         (1, '월요일'),
         (2, '화요일'),
@@ -41,11 +49,9 @@ class User(AbstractUser):
         (6, '토요일'),
         (7, '일요일'),
     ]
-    free_time = MultiSelectField(choices=DATE_LIST)
+    free_time = MultiSelectField(choices=DATE_LIST, blank=True)
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_updated = models.DateTimeField(auto_now=True)
-
-    self_objects = UserManager()
 
 
 class Agreement(models.Model):
