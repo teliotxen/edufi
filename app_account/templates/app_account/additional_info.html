@@ -4,7 +4,7 @@
 <h1>additional info</h1>
 </body>
 <form method="post">{% csrf_token %}
-
+    <p>이름: {{ form.name }}</p>
     <p>이메일 : {{ form.email }}</p>
     <p>생일 : {{ form.birthday | attr:"type:date"}}</p>
     <p>학교 : {{ form.school }}</p>

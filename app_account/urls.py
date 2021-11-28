@@ -26,6 +26,11 @@ urlpatterns = [
         views.AgreementUpdateView.as_view(),
         name='agreement_update'
     ),
+    path(
+        'router/<int:id>/',
+        views.RouterUpdateView.as_view(),
+        name='router'
+    ),
 
 
 

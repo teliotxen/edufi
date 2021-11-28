@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView
-from app_account.forms import AgreementForm, AditionalInfoForm
+from app_account.forms import AgreementForm, AditionalInfoForm, RouterForm
 from .decorators import deco
 from django.urls import reverse
-from .models import User, Agreement
+from .models import User, Agreement,Router
 from .funcs import school_year_cal
 from django.http import HttpResponse
 from django.core import serializers
@@ -15,16 +15,19 @@ from django.core import serializers
 @login_required
 @deco
 def index_view(request):
+
     user_data = User.objects.get(id=request.user.id)
     router_user = User.objects.filter(router=user_data.router)
     children = router_user.filter(parent=False)
+    router = Router.objects.get(router_id=user_data.router)
 
     request.session['parent'] = user_data.parent
     request.session['router'] = user_data.router
     context = {
         'data': request.session['parent'],
         'user': user_data,
-        'router': children,
+        'children': children,
+        'router': router,
     }
     return render(request, 'app_account/index.html', context)
 
@@ -60,8 +63,12 @@ class AgreementView(CreateView):
         if user_info.router is None:
             # 라우터 정보 가져오는 함수
             router_id = '12345'
+
+            #라우터 모델 등록 코드 삽입
+
         else:
             router_id = user_info.router
+
 
         router_sorted = User.objects.filter(router=router_id)
         init_user = router_sorted.filter(parent=True).count()
@@ -126,6 +133,25 @@ class AdditionalCreateView(UpdateView):
             context['year'] = school_year_cal(birthday)
         return context
 
+
+class RouterUpdateView(UpdateView):
+    model = Router
+    context_object_name = 'form'
+    form_class = RouterForm
+    template_name = 'app_account/router_update.html'
+    success_url = '/'
+    # pk_url_kwarg = 'id'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.router == self.get_object().router_id:
+            return super(RouterUpdateView, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+    def get_object(self, queryset=None,):
+        number = self.request.user.router
+        pk_url_kwarg = Router.objects.get(router_id=number).id
+        return get_object_or_404(self.model, id=pk_url_kwarg)
 
     #User.objects.create_user('navio',None,'tedsdcds1')
 

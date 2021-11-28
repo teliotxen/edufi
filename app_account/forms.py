@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 
 from django.contrib.auth.models import User, AbstractUser
-from app_account.models import Agreement
+from app_account.models import Agreement, Router
 # from app_account.models import AbstractUser
 class UserForm(forms.ModelForm):
     class Meta:
@@ -30,7 +30,12 @@ from .models import User
 class AditionalInfoForm(forms.ModelForm):
     class Meta:
         model = User
-        fields=['email','birthday','school','gender']
+        fields=['name','email','birthday','school','gender']
         widgets = {
             # 'birthday' : ,
         }
+
+class RouterForm(forms.ModelForm):
+    class Meta:
+        model = Router
+        fields = ['router_id', 'max_time', 'free_time']

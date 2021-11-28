@@ -31,10 +31,10 @@
 
 {% if user.parent %}
     {% comment %}prarent{% endcomment %}
-    {% if router.count < 1 %}
+    {% if children.count < 1 %}
         <div><p>등록된 학생이 없습니다.</p></div>
     {% else %}
-        {% for datum in router %}
+        {% for datum in children %}
             <div><a href="#" onclick="choose({{ forloop.counter0 }})" class="child-list">{{ datum }}</a></div>
         {% endfor %}
     {% endif %}
@@ -42,10 +42,10 @@
 
     <h1>세부항목</h1>
 
-    {% if router.count < 1 %}
+    {% if children.count < 1 %}
         <div><p>등록된 학생이 없습니다.</p></div>
     {% else %}
-        {% for datum in router %}
+        {% for datum in children %}
         <div class="child-detail">
             <p>{{ datum.username }}</p>
             <p>{{ datum.get_time }} </p>
@@ -57,7 +57,7 @@
 {% else %}
     {% comment %}children{% endcomment %}
     <p>이용 가능 시간</p>
-    <span>{{ user.get_time }} / {{ user.max_time }}</span>
+    <span>{{ user.get_time }} / {{ router.max_time }}</span>
     <div><a href="{% url 'game' %}">사용시간 늘리기</a></div>
     <div>
         <div>
