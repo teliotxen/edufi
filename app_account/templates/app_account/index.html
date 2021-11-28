@@ -20,6 +20,10 @@
 </head>
 
 <body>
+<div>
+    <a href="{% url 'agreement_update' user.id %}">동의항목 확인</a>
+    <a href="{% url 'router' user.router %}">라우터 설정</a>
+</div>
 <p>{{ user.username }}</p>
 <a href="{% url 'game' %}">이동</a>
 <a href="accounts/logout/">로그아웃</a>

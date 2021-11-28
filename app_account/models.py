@@ -3,17 +3,17 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from multiselectfield import MultiSelectField
 
-class UserManager(BaseUserManager):
-    def create_user(self, parent, router,  password=None):
-
-        user = self.model(
-            parent=parent,
-            router=router,
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+# class UserManager(BaseUserManager):
+#     def create_user(self, parent, router,  password=None):
+#
+#         user = self.model(
+#             parent=parent,
+#             router=router,
+#         )
+#
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
 
 
 class User(AbstractUser):
@@ -34,7 +34,7 @@ class User(AbstractUser):
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_updated = models.DateTimeField(auto_now=True)
 
-    self_objects = UserManager()
+    # self_objects = UserManager()
 
 
 class Router(models.Model):

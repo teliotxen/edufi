@@ -5,6 +5,11 @@
     <title>Title</title>
 </head>
 <body>
+    <form method="post" enctype="multipart/form-data" novalidate>
+         {%  csrf_token %}
+
+    <button type="submit">Upload</button>
+  </form>
     <table>
         {% for datum in data %}
             <tr>

@@ -36,7 +36,8 @@ def index_view(request):
 @login_required
 def profile_view(request, **kwargs):
     context = dict()
-    context['kwargs'] = request.user.username
+    context['user_id'] = request.user.id
+    # return reverse("profile", kwargs={"user_id": request.user.id})
     return render(request, 'app_account/profile.html', context)
 
 
@@ -62,17 +63,23 @@ class AgreementView(CreateView):
         user_info = User.objects.get(id=self.request.user.id)
         if user_info.router is None:
             # 라우터 정보 가져오는 함수
-            router_id = '12345'
 
-            #라우터 모델 등록 코드 삽입
+            router_id = '54321'
+            user_info.router = router_id
+            user_info.save()
+
+            try:
+                router_information = Router.objects.create(router_id=router_id, max_time=180, free_time=[6,7])
+            except:
+                router_information = Router.objects.get(router_id=router_id)
 
         else:
-            router_id = user_info.router
 
+            router_id = user_info.router
+            router_information = Router.objects.get(id=router_id)
 
         router_sorted = User.objects.filter(router=router_id)
         init_user = router_sorted.filter(parent=True).count()
-        print(init_user)
         if init_user == 0:
             user_info.parent = True
             user_info.save()
@@ -82,7 +89,7 @@ class AgreementView(CreateView):
         target.save()
 
         if user_info.parent:
-            return reverse('index')
+            return reverse('router', kwargs={'id':router_information.id})
         else:
             return reverse("additional", kwargs={"id": self.request.user.id})
 
@@ -143,7 +150,7 @@ class RouterUpdateView(UpdateView):
     # pk_url_kwarg = 'id'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.router == self.get_object().router_id:
+        if request.user.is_authenticated and request.user.router == self.get_object().router_id and self.request.user.parent:
             return super(RouterUpdateView, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied

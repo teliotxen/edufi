@@ -62,12 +62,12 @@ def upload_file(request):
             console = string_list[-1]
             if 'csv' == console:
                 form.save()
-                return render(request, 'english/uploader.html')
+                return render(request, 'english/upload.html')
             else:
                 return render(request, 'english/uploader.html', context={'error':'csv 파일을 넣으세요','form': form})
 
     else:
         form = UploadFileForm()
-
+    print(1)
     return render(request, 'english/uploader.html', {'form': form})
 
