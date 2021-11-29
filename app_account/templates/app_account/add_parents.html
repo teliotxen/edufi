@@ -1,0 +1,22 @@
+{% load static %}
+
+<html>
+
+<head>
+</head>
+<body>
+<a href="{% url 'index' %}">돌아가기</a>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    <button type="submit">Upload</button>
+</form>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,21 +1,33 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from app_account.forms import AgreementForm, AditionalInfoForm, RouterForm
 from .decorators import deco
 from django.urls import reverse
-from .models import User, Agreement,Router
-from .funcs import school_year_cal
+from .models import User, Agreement, Router
+from english.models import UserAnswer
+from .funcs import school_year_cal, form_data_to_string
+from .forms import UserForm
+import json
 from django.http import HttpResponse
 from django.core import serializers
+
+
+#결과 리스트 뷰
+class ReportListView(ListView):
+    model = UserAnswer
+    template_name = 'app_account/report_list.html'
+
+
+class ReportDetailView(DetailView):
+    pass
 
 
 #index view
 @login_required
 @deco
 def index_view(request):
-
     user_data = User.objects.get(id=request.user.id)
 
     try:
@@ -78,7 +90,6 @@ class AgreementView(CreateView):
                 router_information = Router.objects.get(router_id=router_id)
 
         else:
-
             router_id = user_info.router
             router_information = Router.objects.get(id=router_id)
 
@@ -164,8 +175,28 @@ class RouterUpdateView(UpdateView):
         pk_url_kwarg = Router.objects.get(router_id=number).id
         return get_object_or_404(self.model, id=pk_url_kwarg)
 
-    #User.objects.create_user('navio',None,'tedsdcds1')
 
+@login_required
+def add_parents(request):
+    form = UserForm()
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES)
 
+        if form.is_valid():
+            form_username = form_data_to_string(form['username'])
+            form_password = form_data_to_string(form['password'])
+            print(form_username, form_password)
+
+            new_user = User.objects.create(
+                username=form_username,
+                parent=True
+            )
+            new_user.set_password(form_password)
+            new_user.save()
+
+    if User.objects.get(id=request.user.id).parent:
+        return render(request, 'app_account/add_parents.html', {'form': form})
+    else:
+        return redirect('index')
 
 

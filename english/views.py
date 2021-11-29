@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.http import Http404
 from django.shortcuts import render, redirect
 from .forms import UploadFileForm, DataTable
-from .models import Quiz, uploadFileModel
+from .models import Quiz, uploadFileModel, UserAnswer
 from .uploader import bulk_input
 from django.core import serializers
 import json
@@ -18,10 +18,16 @@ def game_view(request):
 
     answer_sheet = []
     for datum in json_data:
-        matter = [datum.id,datum.english, datum.korean, datum.word1, datum.word2, datum.word3]
+        matter = {
+            'id': datum.id,
+            'level': datum.level,
+            'english': datum.english,
+            'korean': datum.korean,
+            'word1': datum.word1,
+            'word2': datum.word2,
+            'word3': datum.word3
+        }
         answer_sheet.append(matter)
-
-    print(answer_sheet)
 
 
     #AJAX GET - get type을 확인해서 적절한 내용을 GET 하게 할 수 있다.
@@ -31,9 +37,63 @@ def game_view(request):
 
     #AJAX POST
     if request.POST:
-        print(type(request.body))
-        print(json.loads(request.body))
+        get_data = json.loads(request.body)['result']
 
+        print(answer_sheet)
+
+        #test_score
+        test_score = int(get_data.count('True')/len(get_data)*100)
+
+        #user answer
+        answer_sheet_list = list()
+        for num in range(0,len(get_data)):
+            user_answer = get_data[num]
+            if user_answer == 'True':
+                answer_sheet_list.append(answer_sheet[num]['english'])
+            else:
+                merged_sentence = ''
+                for inside_num in range(0,len(user_answer)):
+                    merged_sentence += user_answer[inside_num]
+                    if inside_num < len(user_answer) - 2:
+                        merged_sentence += ' '
+                answer_sheet_list.append(merged_sentence)
+
+        #vocabulary
+        word_list = list()
+        for item in answer_sheet:
+            part_word_list = list()
+            for i in range(1,4):
+                index = 'word'+ str(i)
+                print(item[index])
+                if item[index] != '':
+                    part_word_list.append(item[index])
+            word_list.append(part_word_list)
+
+        UserAnswer.objects.create(
+            user=request.user,
+            level=answer_sheet[0]['level'], #레밸 내용 수정하기
+            score = test_score,
+            sentence1=answer_sheet[0]['english'],
+            korean1=answer_sheet[0]['korean'],
+            answer1=answer_sheet_list[0],
+            sentence2=answer_sheet[1]['english'],
+            korean2=answer_sheet[1]['korean'],
+            answer2=answer_sheet_list[1],
+            sentence3=answer_sheet[2]['english'],
+            korean3=answer_sheet[2]['korean'],
+            answer3=answer_sheet_list[2],
+            sentence4=answer_sheet[3]['english'],
+            korean4=answer_sheet[3]['korean'],
+            answer4=answer_sheet_list[3],
+            sentence5=answer_sheet[4]['english'],
+            korean5=answer_sheet[4]['korean'],
+            answer5=answer_sheet_list[4],
+            voca1=word_list[0],
+            voca2=word_list[1],
+            voca3=word_list[2],
+            voca4 = word_list[3],
+            voca5 = word_list[4],
+        )
     return render(request, 'english/game_view.html')
 
 

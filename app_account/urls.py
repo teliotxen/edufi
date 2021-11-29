@@ -31,11 +31,10 @@ urlpatterns = [
         views.RouterUpdateView.as_view(),
         name='router'
     ),
-
-
-
-
-
-
+    path(
+        'parents/',
+        views.add_parents,
+        name = 'add_parents'
+    ),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,11 +3,15 @@ from django.core.exceptions import ValidationError
 
 
 from django.contrib.auth.models import User, AbstractUser
+
+import app_account.models
 from app_account.models import Agreement, Router
 # from app_account.models import AbstractUser
+
+
 class UserForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = app_account.models.User
         fields = ['username', 'password']
 
 

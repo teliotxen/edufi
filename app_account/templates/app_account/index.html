@@ -22,7 +22,7 @@
 <body>
 <div>
     <a href="{% url 'agreement_update' user.id %}">동의항목 확인</a>
-    <a href="{% url 'router' user.router %}">라우터 설정</a>
+    <a href="{% url 'router' user.router %}">이용시간 설정</a>
 </div>
 <p>{{ user.username }}</p>
 <a href="{% url 'game' %}">이동</a>
@@ -42,9 +42,9 @@
             <div><a href="#" onclick="choose({{ forloop.counter0 }})" class="child-list">{{ datum }}</a></div>
         {% endfor %}
     {% endif %}
-    <div><a href="#">등록</a></div>
+    <div><a href="{% url 'add_parents' %}">학부모 등록</a></div>
 
-    <h1>세부항목</h1>
+    <h3>세부항목</h3>
 
     {% if children.count < 1 %}
         <div><p>등록된 학생이 없습니다.</p></div>
@@ -57,6 +57,8 @@
         </div>
     {% endfor %}
     {% endif %}
+
+    <h3>학습기록</h3>
 
 {% else %}
     {% comment %}children{% endcomment %}

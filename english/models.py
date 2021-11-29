@@ -45,3 +45,9 @@ class UserAnswer(models.Model):
     sentence5 = models.CharField(max_length=500, blank=True)
     answer5 = models.CharField(max_length=500, blank=True)
     voca5 = models.CharField(max_length=500, blank=True)
+    korean1 = models.CharField(max_length=500, blank=True)
+    korean2 = models.CharField(max_length=500, blank=True)
+    korean3 = models.CharField(max_length=500, blank=True)
+    korean4 = models.CharField(max_length=500, blank=True)
+    korean5 = models.CharField(max_length=500, blank=True)
+

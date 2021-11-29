@@ -30,3 +30,17 @@ def school_year_cal(date1):
         text = f'{school}'
 
     return text
+
+
+def form_data_to_string(data):
+    temp = str(data)
+    temp = temp.split(' ')
+    for item in temp:
+        if 'value' in item:
+            temp = item.split('=')
+            string = ''
+            for i in temp[1]:
+                if i != '"':
+                    string += i
+
+            return string

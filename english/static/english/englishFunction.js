@@ -4,17 +4,17 @@ function vocaContentsChanger(){
     vocaSen = document.querySelectorAll('.voca_sentence')
     vocaTra = document.querySelectorAll('.voca_translate')
 
-    vocaEng[0].innerHTML = hypeDocument.customData.voca[0]['word']
-    vocaEng[1].innerHTML = hypeDocument.customData.voca[1]['word']
+    vocaEng[0].innerHTML = HYPE.documents.index.customData.voca[0]['word']
+    vocaEng[1].innerHTML = HYPE.documents.index.customData.voca[1]['word']
 
-    vocaKor[0].innerHTML = hypeDocument.customData.voca[0]['mean']
-    vocaKor[1].innerHTML = hypeDocument.customData.voca[1]['mean']
+    vocaKor[0].innerHTML = HYPE.documents.index.customData.voca[0]['mean']
+    vocaKor[1].innerHTML = HYPE.documents.index.customData.voca[1]['mean']
 
-    vocaSen[0].innerHTML = hypeDocument.customData.voca[0]['sentence']
-    vocaSen[1].innerHTML = hypeDocument.customData.voca[1]['sentence']
+    vocaSen[0].innerHTML = HYPE.documents.index.customData.voca[0]['sentence']
+    vocaSen[1].innerHTML = HYPE.documents.index.customData.voca[1]['sentence']
 
-    vocaTra[0].innerHTML = hypeDocument.customData.voca[0]['translate']
-    vocaTra[1].innerHTML = hypeDocument.customData.voca[1]['translate']
+    vocaTra[0].innerHTML = HYPE.documents.index.customData.voca[0]['translate']
+    vocaTra[1].innerHTML = HYPE.documents.index.customData.voca[1]['translate']
 }
 //ajax crsf 토큰 함수
 function getCookie(name) {
