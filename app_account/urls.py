@@ -36,5 +36,15 @@ urlpatterns = [
         views.add_parents,
         name = 'add_parents'
     ),
+    path(
+        'report/<int:user_id>/',
+        views.ReportListView.as_view(),
+        name='report'
+    ),
+    path(
+        'report_detail/<int:sheets_id>/',
+        views.ReportDetailView.as_view(),
+        name='report_detail'
+    ),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

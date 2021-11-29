@@ -1,0 +1,54 @@
+<html>
+<head>
+
+</head>
+<body>
+<div>
+    <p>{{ report.user.username }}</p>
+    <p>{{ report.user.name }}</p>
+    <p>{{ report.level }}</p>
+    <p>{{ report.score }}</p>
+    <p>{{ report.dt_created }}</p>
+</div>
+
+<div>
+    <p>{{ report.sentence1 }}</p>
+    <p>{{ report.korean1 }}</p>
+    <p>{{ report.answer1 }}</p>
+    <p>{{ report.voca1 }}</p>
+</div>
+
+<div>
+    <p>{{ report.sentence2 }}</p>
+    <p>{{ report.korean2 }}</p>
+    <p>{{ report.answer2 }}</p>
+    <p>{{ report.voca2 }}</p>
+</div>
+
+<div>
+    <p>{{ report.sentence3 }}</p>
+    <p>{{ report.korean3 }}</p>
+    <p>{{ report.answer3 }}</p>
+    <p>{{ report.voca3 }}</p>
+</div>
+
+<div>
+    <p>{{ report.sentence4 }}</p>
+    <p>{{ report.korean4 }}</p>
+    <p>{{ report.answer4 }}</p>
+    <p>{{ report.voca4 }}</p>
+</div>
+
+<div>
+    <p>{{ report.sentence5 }}</p>
+    <p>{{ report.korean5 }}</p>
+    <p>{{ report.answer5 }}</p>
+    <p>{{ report.voca5 }}</p>
+</div>
+
+
+<a href="{% url 'report' report.user.id %}">돌아가기</a>
+
+
+</body>
+</html>

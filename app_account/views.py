@@ -18,10 +18,31 @@ from django.core import serializers
 class ReportListView(ListView):
     model = UserAnswer
     template_name = 'app_account/report_list.html'
+    context_object_name = 'user_answer'
+    paginate_by = 8
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')
+        return UserAnswer.objects.filter(user_id=user_id).order_by("-dt_created")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile_user'] = get_object_or_404(User, id=self.kwargs.get('user_id'))
+        return context
 
 
 class ReportDetailView(DetailView):
-    pass
+    model = UserAnswer
+    template_name = 'app_account/report_detail.html'
+    pk_url_kwarg = 'sheets_id'
+    context_object_name = 'answer_sheet'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sheets_id = self.kwargs.get('sheets_id')
+        context['report'] = UserAnswer.objects.get(id=sheets_id)
+        return context
+
 
 
 #index view
