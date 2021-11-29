@@ -17,9 +17,6 @@ def bulk_input(value):
     print(hand)
     reader = csv.reader(hand)
     # csv 파일을 읽고 변수에 저장합니다.
-
-
-
     # 아직은 객체 상태입니다.
     bulk_list = []
     for row in reader:

@@ -39,7 +39,27 @@ class User(AbstractUser):
 
 class Router(models.Model):
     router_id = models.CharField(max_length=20, unique=True)
-    max_time = models.IntegerField()
+    minute_list = [
+        (5, '5분'),
+        (10, '10분'),
+        (15, '15분'),
+        (20, '20분'),
+        (25, '25분'),
+        (30, '30분'),
+
+    ]
+    get_time = models.IntegerField(choices=minute_list ,null=True)
+    hour_list = [
+        (30, '30분'),
+        (60, '1시간'),
+        (90, '1시간 30분'),
+        (120, '2시간'),
+        (150, '2시간 30분'),
+        (180, '3시간'),
+        (210, '3시간 30분'),
+        (240, '4시간'),
+    ]
+    max_time = models.IntegerField(choices=hour_list)
     DATE_LIST = [
         (1, '월요일'),
         (2, '화요일'),

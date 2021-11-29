@@ -17,9 +17,13 @@ from django.core import serializers
 def index_view(request):
 
     user_data = User.objects.get(id=request.user.id)
-    router_user = User.objects.filter(router=user_data.router)
-    children = router_user.filter(parent=False)
-    router = Router.objects.get(router_id=user_data.router)
+
+    try:
+        router_user = User.objects.filter(router=user_data.router)
+        children = router_user.filter(parent=False)
+        router = Router.objects.get(router_id=user_data.router)
+    except:
+        return redirect('agreement')
 
     request.session['parent'] = user_data.parent
     request.session['router'] = user_data.router
@@ -64,7 +68,7 @@ class AgreementView(CreateView):
         if user_info.router is None:
             # 라우터 정보 가져오는 함수
 
-            router_id = '54321'
+            router_id = '11111'
             user_info.router = router_id
             user_info.save()
 

@@ -38,4 +38,4 @@ class AditionalInfoForm(forms.ModelForm):
 class RouterForm(forms.ModelForm):
     class Meta:
         model = Router
-        fields = ['router_id', 'max_time', 'free_time']
+        fields = ['get_time', 'max_time', 'free_time']
