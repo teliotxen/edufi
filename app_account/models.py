@@ -30,7 +30,7 @@ class User(AbstractUser):
     gender = models.IntegerField(choices=gender_table, default=None, null=True)
     identification = models.CharField(max_length=30, null=True) #parents PK
     router = models.CharField(null=True, max_length=30)
-    get_time = models.IntegerField(null=True)
+    get_time = models.IntegerField(default=0)
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_updated = models.DateTimeField(auto_now=True)
 
