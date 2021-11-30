@@ -31,6 +31,7 @@ class ReportListView(ListView):
         return context
 
 
+#결과 디테일 뷰
 class ReportDetailView(DetailView):
     model = UserAnswer
     template_name = 'app_account/report_detail.html'

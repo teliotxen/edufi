@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('contents/', views.game_view, name='game'),
+    path('result/', views.game_result, name='result'),
     path('uploader/', views.upload_file, name='uploader'),
     path('upload/', views.data_upload, name='upload'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

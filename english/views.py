@@ -3,14 +3,54 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from .forms import UploadFileForm, DataTable
 from .models import Quiz, uploadFileModel, UserAnswer
+from app_account.models import Router,User
 from .uploader import bulk_input
 from django.core import serializers
 import json
+import time
+import datetime
+
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+@login_required
+def game_result(request):
+    # try:
+    user_info = User.objects.get(id=request.user.id)
+    router_info = Router.objects.get(router_id=user_info.router)
+    last_sheet = UserAnswer.objects.latest('dt_created')
 
+    if not last_sheet.check_the_result:
+        # last_sheet.check_the_result = True
+        # last_sheet.save()
+        user_get_time = int(user_info.get_time)
+        router_get_time = int(router_info.get_time)
+        router_max_time = int(router_info.max_time)
+        if int(last_sheet.score) >= 60:
+            total_get_time = user_get_time + router_get_time
+            if total_get_time >= router_max_time:
+                total_get_time = router_max_time
 
-# @login_required
+            user_info.get_time = total_get_time
+            user_info.save()
+            result_message = True
+        else:
+            total_get_time = user_get_time
+            result_message = False
+    else:
+        raise Http404("이미 반영된 학습결과 입니다. ")
+
+    # except:
+    #     raise Http404("잘못된 접근입니다. ")
+
+    context = {
+        'user_get_time':user_get_time,
+        'router_get_time': router_get_time,
+        'total_get_time' : total_get_time,
+        'result_message' : result_message
+    }
+    return render(request, 'english/game_result.html', context)
+
+@login_required
 def game_view(request):
 
     sample_list = [1, 3, 5, 7, 9]  # 이 친구를 어떻게 배열할 것인가 그것이 문제가 됨
@@ -39,11 +79,9 @@ def game_view(request):
     if request.POST:
         get_data = json.loads(request.body)['result']
 
-        print(answer_sheet)
-
         #test_score
-        test_score = int(get_data.count('True')/len(get_data)*100)
-
+        test_score = int(get_data.count('true')/len(get_data)*100)
+        print(test_score)
         #user answer
         answer_sheet_list = list()
         for num in range(0,len(get_data)):
@@ -100,7 +138,6 @@ def game_view(request):
 
 def data_upload(request):
     datum = uploadFileModel.objects.values().last()
-    print(bulk_input(datum['file']))
     context = bulk_input(datum['file'])
 
     if request.POST:
@@ -128,6 +165,5 @@ def upload_file(request):
 
     else:
         form = UploadFileForm()
-    print(1)
     return render(request, 'english/uploader.html', {'form': form})
 

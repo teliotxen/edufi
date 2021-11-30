@@ -51,9 +51,9 @@
     {% else %}
         {% for datum in children %}
         <div class="child-detail">
-            <p>{{ datum.username }}</p>
+            <span>{{ datum.username }} | </span><span><a href="{% url 'additional' datum.id%}">수정</a></span>
             <p>{{ datum.get_time }} </p>
-            <p><a href="{% url 'additional' datum.id%}">수정</a></p>
+            <p><a href="{% url 'report' user.id %}">자세히 보기</a></p>
         </div>
     {% endfor %}
     {% endif %}

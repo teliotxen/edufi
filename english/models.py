@@ -50,6 +50,7 @@ class UserAnswer(models.Model):
     korean3 = models.CharField(max_length=500, blank=True)
     korean4 = models.CharField(max_length=500, blank=True)
     korean5 = models.CharField(max_length=500, blank=True)
+    check_the_result = models.BooleanField(default=False)
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_updated = models.DateTimeField(auto_now=True)
 
