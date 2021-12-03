@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     #multi select field
     'multiselectfield',
     'widget_tweaks',
+    'bulma'
 ]
 
 SITE_ID = 1
@@ -159,4 +160,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Allauth 관련 설정
 
+
+
+#bulma 관련 설정
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
