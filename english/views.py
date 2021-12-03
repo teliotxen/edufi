@@ -20,8 +20,8 @@ def game_result(request):
     last_sheet = UserAnswer.objects.latest('dt_created')
 
     if not last_sheet.check_the_result:
-        # last_sheet.check_the_result = True
-        # last_sheet.save()
+        last_sheet.check_the_result = True
+        last_sheet.save()
         user_get_time = int(user_info.get_time)
         router_get_time = int(router_info.get_time)
         router_max_time = int(router_info.max_time)
@@ -69,8 +69,6 @@ def game_view(request):
         }
         answer_sheet.append(matter)
 
-
-    #AJAX GET - get type을 확인해서 적절한 내용을 GET 하게 할 수 있다.
     if request.GET:
         json_object = serializers.serialize("json", json_data)
         return JsonResponse(json_object, safe=False)
