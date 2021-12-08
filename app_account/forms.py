@@ -34,7 +34,7 @@ from .models import User
 class AditionalInfoForm(forms.ModelForm):
     class Meta:
         model = User
-        fields=['name','email','birthday','school','gender']
+        fields=['name','email','birthday','school','grade','gender']
         widgets = {
             # 'birthday' : ,
         }

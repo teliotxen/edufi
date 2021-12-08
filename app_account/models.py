@@ -28,6 +28,16 @@ class User(AbstractUser):
         (3, "응답하지 않음")
     ]
     gender = models.IntegerField(choices=gender_table, default=None, null=True)
+    grade_table = [
+        (1, "초등3"),
+        (2, "초등4"),
+        (3, "초등5"),
+        (4, "초등6"),
+        (5, "중등1"),
+        (6, "중등2"),
+        (7, "중등3"),
+    ]
+    grade = models.IntegerField(choices=grade_table, default=None, null=True)
     identification = models.CharField(max_length=30, null=True) #parents PK
     router = models.CharField(null=True, max_length=30)
     get_time = models.IntegerField(default=0)

@@ -8,6 +8,7 @@
             margin-bottom:15px;
         }
     </style>
+
 {% endblock %}
 <div class="column has-text-centered">
      <p class="title">아동 추가 정보</p>
@@ -20,17 +21,35 @@
              <p class="buttom">생일 : {{ form.birthday | attr:"type:date" | add_class:"input"}}</p>
              <p class="buttom">학교 : {{ form.school | add_class:"input"}}</p>
              <p class="buttom">학년 : {{ year }}</p>
-             <div class="select buttom">
-                 {{ form.gender}}
+             <div class="select buttom">{{ form.grade}}</div>
+             <br>
+             <div class="select buttom gender-selection">
+                 <p>{{ form.gender}}</p>
              </div>
              <br>
              <div style="text-align: center;">
-                 <input class="button buttom"  type="submit" value="저장하기">
+                 <input class="button buttom"  type="submit" value="저장하기" onclick="localStorage.setItem('child_init',true)">
              </div>
         </form>
     </div>
 </section>
+ <script>
+        if(!localStorage.getItem('child_init')){
+            let test = document.getElementById('id_grade')
+            console.log(test)
+            console.log(typeof({{ year }}))
+            console.log(typeof(test[0].value))
+            for(var i=0; i<7; i++){
+                if(test[i].value == {{ year }}){
+                    test[i].selected = true;
 
+                }
+
+            }
+        }
+
+
+    </script>
 
 
 {% endblock contents %}
