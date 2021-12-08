@@ -3,27 +3,46 @@
 {% load static %}
 
 {% block head %}
-
+    <style>
+    .box-centered{
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* default: row */
+        justify-content: center; /* flex direction에 대해서 정렬방식 선택 */
+    }
+    </style>
 {% endblock %}
 {% block contents %}
 
 <section>
-    <form method="post">
-    {% csrf_token %}
-        <div style="margin-bottom: 10px">
-            아이디
-            {{ form.username | add_class:"input"}}
-        </div>
-        <div style="margin-bottom: 10px">
-            비밀번호
-            {{ form.password | add_class:"input" | attr:"type:password"}}
-        </div>
-        <div style="margin-bottom: 10px">
-            <a class="button" href="{% url 'index' %}">취소</a>
-            <button class="button" type="submit">등록하기</button>
-        </div>
 
-    </form>
+<div class="section">
+    <div class="column">
+        <p class="has-text-centered">
+            학부모 사용자를 등록 할 수 있습니다. <br>
+            학부모는 인터넷을 자유롭게 이용할 수 있습니다.
+        </p>
+    </div>
+    <div class="column box-centered">
+        <form method="post">
+        {% csrf_token %}
+            <div style="margin-bottom: 10px; max-width: 500px">
+                아이디
+                {{ form.username | add_class:"input"}}
+            </div>
+            <div style="margin-bottom: 10px; max-width: 500px">
+                비밀번호
+                {{ form.password | add_class:"input" | attr:"type:password"}}
+            </div>
+            <br>
+            <div style="margin-bottom: 10px">
+                <a class="button" href="{% url 'index' %}">취소</a>
+                <button class="button" type="submit">등록하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 </section>
 
 {% endblock %}

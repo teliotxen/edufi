@@ -4,57 +4,76 @@
 
 
 {% block contents %}
-<a class="button" href="{% url 'index' %}"> 돌아가기</a>
+
 <div class="column">
-    <table class="table" width="100%">
-        <thead>
-            <tr>
-                <td style="text-align: center">레벨</td>
-                <td style="text-align: center">점수</td>
-                <td style="text-align: center">제출일</td>
-                <td style="text-align: center">이동</td>
-            </tr>
-        </thead>
-        <tbody>
-        {% for foo in user_answer %}
-            <tr>
-                <td style="text-align: center">{{ foo.level }}</td>
-                <td style="text-align: center">{{ foo.score }}</td>
-                <td style="text-align: center">{{ foo.dt_created |date:"Y-m-d"}}</td>
-                <td style="text-align: center"><a class="is-small button" href="{% url 'report_detail' foo.id %}">자세히 보기</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <a class="button is-small" href="{% url 'index' %}"> 돌아가기</a>
+</div>
+<div class="column" >
+
+    <div style="min-height: 450px">
+        <table class="table is-fullwidth" >
+            <thead>
+                <tr>
+                    <td style="text-align: center">레벨</td>
+                    <td style="text-align: center">점수</td>
+                    <td style="text-align: center">제출일</td>
+                    <td style="text-align: center">이동</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for foo in user_answer %}
+                <tr style = >
+                    <td style="text-align: center">{{ foo.level }}</td>
+                    <td style="text-align: center">{{ foo.score }}</td>
+                    <td style="text-align: center">{{ foo.dt_created |date:"Y-m-d"}}</td>
+                    <td style="text-align: center"><a class="is-small button" href="{% url 'report_detail' foo.id %}">자세히 보기</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 
 
     <div class="wrap-pagination" style="text-align: center">
 
-      {% if is_paginated %}
-        <ul class="pagination">
-          {% if page_obj.has_previous %}
-            <li><a href="?page=1">처음</a></li>
-            <li><a href="?page={{ page_obj.previous_page_number }}">이전</a></li>
-          {% endif %}
+        {% if is_paginated %}
+{#        <nav class="pagination is-centered" role="navigation" aria-label="pagination">#}
+            <div class="columns pagination is-centered ">
+                <div class="column is-one-third">
+                    {% if page_obj.has_previous %}
+        {#                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">이전</a>#}
+                        <a href="?page=1" class="pagination-link is-small" aria-label="Goto page 1">처음으로</a>
+{#                        <span class="pagination-ellipsis">&hellip;</span>#}
+                    {% endif %}
+                </div>
+                <div class="column is-one-third">
+                    <ul class="pagination-list">
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                              <li class="pagination-link is-current ">{{ num }}</li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                              <li class="pagination-link"><a href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="column is-one-third">
+                    {% if page_obj.has_next %}
+{#                        <span class="pagination-ellipsis">&hellip;</span>#}
+        {#                <a href="?page={{ page_obj.next_page_number }}" class="pagination-next">다음</a>#}
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link" aria-label="Goto page 86">마지막으로</a>
+                    {% endif %}
+                </div>
+            </div>
+{#        </nav>#}
 
-          {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-              <li class="current">{{ num }}</li>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-              <li><a href="?page={{ num }}">{{ num }}</a></li>
-            {% endif %}
-          {% endfor %}
 
-          {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}">다음</a></li>
-            <li><a href="?page={{ page_obj.paginator.num_pages }}">마지막</a></li>
-          {% endif %}
-        </ul>
-      {% else %}
-          <p >페이지네이션이 없습니다. </p>
-      {% endif %}
-    </div>
-</div>
+
+
+
+
+        {% endif %}
 
 {% endblock %}
 

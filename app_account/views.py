@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.core import serializers
 
 
+
 #결과 리스트 뷰
 class ReportListView(ListView):
     model = UserAnswer
@@ -48,6 +49,7 @@ class ReportDetailView(DetailView):
 #index view
 @login_required
 def index_view(request):
+
     #사용자가 접속한 공유기 주소 고유 값 가져오기
     #공유기 주소 값으로 해당 공유기 주소에 있는 사용자 유무 파악
     #사용자 유무 파악 후 사용자가 없으면 signup + popup
@@ -227,5 +229,4 @@ def add_parents(request):
         return render(request, 'app_account/add_parents.html', {'form': form})
     else:
         return redirect('index')
-
 

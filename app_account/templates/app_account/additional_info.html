@@ -7,6 +7,12 @@
         .buttom{
             margin-bottom:15px;
         }
+        .box-centered{
+            display: flex;
+            align-items: center;
+            flex-direction: row; /* default: row */
+            justify-content: center; /* flex direction에 대해서 정렬방식 선택 */
+        }
     </style>
 
 {% endblock %}
@@ -14,41 +20,42 @@
      <p class="title">아동 추가 정보</p>
 </div>
 <section>
-    <div class="column is-three-fifths is-offset-one-fifth" style="max-width: 500px">
-         <form method="post">{% csrf_token %}
-             <p class="buttom">이름: {{ form.name | add_class:"input"}}</p>
-             <p class="buttom">이메일 : {{ form.email | add_class:"input"}}</p>
-             <p class="buttom">생일 : {{ form.birthday | attr:"type:date" | add_class:"input"}}</p>
-             <p class="buttom">학교 : {{ form.school | add_class:"input"}}</p>
-             <p class="buttom">학년 : {{ year }}</p>
-             <div class="select buttom">{{ form.grade}}</div>
-             <br>
-             <div class="select buttom gender-selection">
-                 <p>{{ form.gender}}</p>
-             </div>
-             <br>
-             <div style="text-align: center;">
-                 <input class="button buttom"  type="submit" value="저장하기" onclick="localStorage.setItem('child_init',true)">
-             </div>
-        </form>
+    <div class="column is-three-fifths is-offset-one-fifth" >
+        <div class="column box-centered">
+            <form method="post">{% csrf_token %}
+                <p class="buttom">이름: {{ form.name | add_class:"input"}}</p>
+                <p class="buttom">이메일 : {{ form.email | add_class:"input"}}</p>
+                <p class="buttom">생일 : {{ form.birthday | attr:"type:date" | add_class:"input"}}</p>
+                <p class="buttom">학교 : {{ form.school | add_class:"input"}}</p>
+                <div class="columns is-mobile">
+                    <div class="column">
+                        <p> 학년:</p>
+                        <div class="select buttom">{{ form.grade}}</div>
+                    </div>
+                    <div class="column">
+                        <p>성별</p>
+                        <div class="select buttom gender-selection">
+                            <p>{{ form.gender}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <input class="button buttom"  type="submit" value="저장하기" onclick="localStorage.setItem('child_init',true)">
+                </div>
+            </form>
+        </div>
     </div>
 </section>
  <script>
         if(!localStorage.getItem('child_init')){
             let test = document.getElementById('id_grade')
-            console.log(test)
-            console.log(typeof({{ year }}))
-            console.log(typeof(test[0].value))
             for(var i=0; i<7; i++){
                 if(test[i].value == {{ year }}){
                     test[i].selected = true;
-
                 }
-
             }
         }
-
-
     </script>
 
 

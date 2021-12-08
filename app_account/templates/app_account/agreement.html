@@ -18,27 +18,64 @@
         };
     };
 </script>
+<style>
+    .box-centered{
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* default: row */
+        justify-content: center; /* flex direction에 대해서 정렬방식 선택 */
+    }
+</style>
 {% endblock head %}
 
 {% block contents %}
 
-{% if object.user.dt_created %}
-    <p>제출일자 : {{ object.dt_created }}</p>
-{% endif %}
+<div class="section">
+     <div class="column box-centered">
+         <button class="button" id="btn">모두는 항목 동의</button>
+     </div>
 
-<button class="button" id="btn">모두는 항목 동의</button>
+    <div class="column box-centered">
+        <form  method="post" id="term-form">{% csrf_token %}
+            <table class="table is-fullwidth" style="max-width: 500px; min-width: 350px; bord">
+                <tr>
+                    <td> [필수] <a href="#">서비스 이용 약관</a></td>
+                    <td>{{ form.term_agreement |add_class:'term-check' }}</td>
+                </tr>
+                <tr>
+                    <td>[필수] <a href="#">개인정보수집 및 동의</a></td>
+                    <td>{{ form.private_agreement |add_class:'term-check'}}</td>
+                </tr>
+                <tr>
+                    <td>[필수] <a href="#">위치정보 이용약관</a></td>
+                    <td>{{ form.geoLocation_agreement |add_class:'term-check'}}</td>
+                </tr>
+                <tr>
+                    <td>[필수] <a href="#">제3자정보제공동의</a>  </td>
+                    <td>{{ form.provide_third_parties_agreement |add_class:'term-check'}}</td>
+                </tr>
+                <tr>
+                    <td>[선택] <a href="#">마케팅메시지수신동의</a></td>
+                    <td>{{ form.marketing_agreement |add_class:'term-check'}}</td>
+                </tr>
+                <tr>
+                    <td><span>이메일 </span>{{ form.email_marketing_agreement |add_class:'term-check'}}  | <span>SMS </span>{{ form.sms_agreement |add_class:'term-check'}}</td>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="column box-centered">
+                {% if object.user.dt_created %}
+                    <p>제출일자 : {{ object.dt_created }}</p>
+                {% endif %}
+            </div>
+            <div class="column box-centered">
+                <button class="button " id="submit">제출하기</button>
+            </div>
 
-<form method="post" id="term-form">{% csrf_token %}
-    <p>term_agreement : {{ form.term_agreement |add_class:'term-check' }}</p>
-    <p>private_agreement : {{ form.private_agreement |add_class:'term-check'}}</p>
-    <p>geoLocation_agreement : {{ form.geoLocation_agreement |add_class:'term-check'}}</p>
-    <p>provide_third_parties_agreement : {{ form.provide_third_parties_agreement |add_class:'term-check'}}</p>
-    <p>marketing_agreement : {{ form.marketing_agreement |add_class:'term-check'}}</p>
-    <p>email_marketing_agreement : {{ form.email_marketing_agreement |add_class:'term-check'}}</p>
-    <p>sms_agreement : {{ form.sms_agreement |add_class:'term-check'}}</p>
+        </form>
+    </div>
+</div>
 
-    <button class="button" id="submit">제출하기</button>
-</form>
 
 <script>
     var checkbox = document.querySelectorAll('.term-check');

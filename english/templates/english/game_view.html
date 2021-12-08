@@ -1,33 +1,14 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+
+{% block head %}
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="{% static 'english/englishFunction.js' %}"></script>
     <script type="text/javascript" src={% static 'english/danbee.hyperesources/danbee.js' %}></script>
 
-    <meta name="viewport" content="user-scalable=yes, width=320" />
+    <meta name="viewport" content="user-scalable=yes, width=100%" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<style>
-		.voca_eng{
-			font-size:1.8em;
-			text-align:center;
-		}
-		.voca_kor{
-			font-size:1.3em;
-			text-align:center;
-		}
-		.voca_sentence{
-			font-size:1em;
-			text-align:center;
-		}
-		.voca_translate{
-			font-size:0.8em;
-			text-align:center;
-		}
-    </style>
-
 
 	<script>
         var csrftoken = getCookie('csrftoken');
@@ -35,42 +16,9 @@
             headers: { "X-CSRFToken": '{{csrf_token}}' }
         });
 	</script>
-
-</head>
-<body>
+{% endblock %}
+{% block contents %}
 <div id="danbee_hype_container" class="HYPE_document" style="margin:auto;position:relative;width:320px;height:500px;overflow:hidden;">
     <script type="text/javascript" charset="utf-8" src="{% static 'english/danbee.hyperesources/danbee_hype_generated_script.js' %}  "></script>
 </div>
-{% comment %}
-테스트 코드
-<button class="b">bbbb</button>
-<script>
-    const b = document.querySelector('.b');
-    b.addEventListener('click', ()=> {
-        $.ajax({
-            url: "", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-            data: { name: "1" }, // HTTP 요청과 함께 서버로 보낼 데이터
-            method: "POST", // HTTP 요청 메소드(GET, POST 등)
-            dataType: "json" // 서버에서 보내줄 데이터의 타입
-        })
-        .done(function(json) {
-            var k = json
-            console.log(typeof(k))
-            console.log(JSON.parse(k))
-        }) // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
-        .fail(function(xhr, status, errorThrown) {
-            console.log('fail')
-        })
-        .always(function(xhr, status) {
-            console.log('done')
-        });
-
-
-    });
-</script>
-
-{% endcomment%}
-
-
-</body>
-</html>
+{% endblock %}

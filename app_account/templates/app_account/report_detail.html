@@ -1,9 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block head %}
+    <style>
+    .correct-answer{
+        background-color: blue;
+        color:white;
+        border-radius: 6px;
+        margin-bottom: 5px;
+    }
+    .wrong-answer{
+        background-color: red;
+        color:white;
+        border-radius: 6px;
+        margin-bottom: 5px;
+
+    }
+    </style>
+{% endblock %}
 {% block contents %}
-<a class="button" href="{% url 'report' report.user.id %}">돌아가기</a>
+
+<div class="column">
+    <a class="button is-small" href="{% url 'report' report.user.id %}">돌아가기</a>
+</div>
+
 <section class="hero is-info">
+
   <div class="hero-body">
     <p class="title">
       학습 세부 내용
@@ -38,8 +60,12 @@
 </saction>
 
     <br>
-<section>
-    <div class="column">
+<div class="section">
+    <div class="column {% if report.answer1 == 't r ue' %}
+            correct-answer
+        {% else %}
+            wrong-answer
+        {% endif %}">
         <p>문제 : {{ report.korean1 }}</p>
         <p>정답 : {{ report.sentence1 }}</p>
         {% if report.answer1  != 't r ue' %}
@@ -47,8 +73,11 @@
         {% endif %}
         <p>{{ report.voca1 }}</p>
     </div>
-
-    <div class="column">
+    <div class="column {% if report.answer1 == 't r ue' %}
+            correct-answer
+        {% else %}
+            wrong-answer
+        {% endif %}">
         <p>문제 : {{ report.korean2 }}</p>
         <p>정답 : {{ report.sentence2 }}</p>
         {% if report.answer2  != 't r ue' %}
@@ -56,8 +85,11 @@
         {% endif %}
         <p>{{ report.voca2 }}</p>
     </div>
-
-    <div class="column">
+    <div class="column {% if report.answer1 == 't r ue' %}
+            correct-answer
+        {% else %}
+            wrong-answer
+        {% endif %}">
         <p>문제 : {{ report.korean3 }}</p>
         <p>정답 : {{ report.sentence3 }}</p>
         {% if report.answer3  != 't r ue' %}
@@ -65,8 +97,11 @@
         {% endif %}
         <p>{{ report.voca3 }}</p>
     </div>
-
-    <div class="column">
+    <div class="column {% if report.answer1 == 't r ue' %}
+            correct-answer
+        {% else %}
+            wrong-answer
+        {% endif %}">
         <p>문제 : {{ report.korean4 }}</p>
         <p>정답 : {{ report.sentence4 }}</p>
 
@@ -75,8 +110,11 @@
         {% endif %}
         <p>{{ report.voca4 }}</p>
     </div>
-
-    <div class="column">
+    <div class="column {% if report.answer1 == 't r ue' %}
+            correct-answer
+        {% else %}
+            wrong-answer
+        {% endif %}">
         <p>문제 : {{ report.korean5 }}</p>
         <p>정답 : {{ report.sentence5 }}</p>
 
@@ -86,7 +124,7 @@
         <p>{{ report.voca5 }}</p>
     </div>
 
-</section>
+</div>
 
 
 

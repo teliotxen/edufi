@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load static %}
 {% load widget_tweaks %}
 
@@ -9,6 +8,12 @@
       .input-margin{
         margin-top: 1em;
       }
+      .box-centered{
+            display: flex;
+            align-items: center;
+            flex-direction: row; /* default: row */
+            justify-content: center; /* flex direction에 대해서 정렬방식 선택 */
+        }
   </style>
 {% endblock %}
 {% block title %}회원가입{% endblock title %}
@@ -16,13 +21,13 @@
 {% block contents %}
 <section class="hero is-fullheight">
     <div class="hero-body">
-        <div class="container has-text-centered">
-            <div class="column is-6 is-offset-3">
+        <div class="container has-text-centered box-centered">
+            <div class="column box login-box-style" style="max-width: 500px;">
             <h4 class="title has-text-black">회원가입</h4>
             <hr class="login-hr">
                 <form method="post">
                 {% csrf_token %}
-                    <div class="box login-box-style">
+                    <div class="">
                         <div class="input-margin">
                             {{form.username |add_class:"input"|attr:"placeholder:아이디" | add_error_class:"error"}}
                             {% for error in form.username.errors %}
