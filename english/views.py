@@ -20,8 +20,8 @@ def game_result(request):
     last_sheet = UserAnswer.objects.latest('dt_created')
 
     if not last_sheet.check_the_result:
-        last_sheet.check_the_result = True
-        last_sheet.save()
+        # last_sheet.check_the_result = True
+        # last_sheet.save()
         user_get_time = int(user_info.get_time)
         router_get_time = int(router_info.get_time)
         router_max_time = int(router_info.max_time)
@@ -46,7 +46,8 @@ def game_result(request):
         'user_get_time':user_get_time,
         'router_get_time': router_get_time,
         'total_get_time' : total_get_time,
-        'result_message' : result_message
+        'result_message' : result_message,
+        'currunt_sheet' : last_sheet
     }
     return render(request, 'english/game_result.html', context)
 

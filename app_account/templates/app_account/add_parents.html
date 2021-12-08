@@ -1,22 +1,37 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
 {% load static %}
 
-<html>
+{% block head %}
 
-<head>
-</head>
-<body>
-<a href="{% url 'index' %}">돌아가기</a>
-<form method="post">
+{% endblock %}
+{% block contents %}
+
+<section>
+    <form method="post">
     {% csrf_token %}
-    {{ form }}
+        <div style="margin-bottom: 10px">
+            아이디
+            {{ form.username | add_class:"input"}}
+        </div>
+        <div style="margin-bottom: 10px">
+            비밀번호
+            {{ form.password | add_class:"input" | attr:"type:password"}}
+        </div>
+        <div style="margin-bottom: 10px">
+            <a class="button" href="{% url 'index' %}">취소</a>
+            <button class="button" type="submit">등록하기</button>
+        </div>
 
-    <button type="submit">Upload</button>
-</form>
+    </form>
+</section>
+
+{% endblock %}
 
 
 
 
 
-</body>
 
-</html>
+
+

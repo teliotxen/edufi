@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>EduFi - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bulma/css/style.css' %}">
+
+    {% block head %} {% endblock %}
+</head>
+
+<body>
+<nav class="navbar" role="navigation" aria-label="main navigation" >
+    <div class="columns is-mobile">
+        <div class="column is-half">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'index' %}">
+                  <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: Free, open source, and modern CSS framework based on Flexbox" width="112" height="28">
+                </a>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="column is-half" >
+                <div class="column" style="text-align: right;">
+                    <span><a class="button is-small " href="accounts/logout/">로그아웃</a></span>
+                </div>
+            </div>
+        {% else %}
+
+        {% endif %}
+
+
+    </div>
+</nav>
+{% block nav %}
+
+{% endblock nav %}
+
+<div class="columns is-desktop">
+    <div class="column is-three-fifths is-offset-one-fifth">
+            {% block contents %}{% endblock %}
+    </div>
+</div>
+
+
+
+
+</body>

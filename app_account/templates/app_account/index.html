@@ -1,88 +1,190 @@
+{% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
 
-<html lang="ko">
-<head>
-    <script>
-        window.onload = function() {
-            var childDetail = document.querySelectorAll('.child-detail')
 
-            if (childDetail.length !=0){
-                for (var i=0; i<childDetail.length; i++){
-                    childDetail[i].style.display = 'none'
-                }
-                childDetail[0].style.display = 'inline'
+{% block head %}
+<script>
+    window.onload = function() {
+        var childDetail = document.querySelectorAll('.child-detail')
+
+        if (childDetail.length !=0){
+            for (var i=0; i<childDetail.length; i++){
+                childDetail[i].style.display = 'none'
             }
-        };
-    </script>
-    <title>메인화면</title>
+            childDetail[0].style.display = 'inline'
+        }
+    };
+</script>
+<title>메인화면</title>
+{% endblock %}
 
-</head>
 
-<body>
-<div>
-    <a href="{% url 'agreement_update' user.id %}">동의항목 확인</a>
-    <a href="{% url 'router' user.router %}">이용시간 설정</a>
-</div>
-<p>{{ user.username }}</p>
-<a href="{% url 'game' %}">이동</a>
-<a href="accounts/logout/">로그아웃</a>
-{% if user.parent %}
-    <p>teacher</p>
-{% else %}
-    <p>student</p>
-{% endif %}
+{% block contents %}
+
 
 {% if user.parent %}
     {% comment %}prarent{% endcomment %}
-    {% if children.count < 1 %}
-        <div><p>등록된 학생이 없습니다.</p></div>
-    {% else %}
-        {% for datum in children %}
-            <div><a href="#" onclick="choose({{ forloop.counter0 }})" class="child-list">{{ datum }}</a></div>
-        {% endfor %}
-    {% endif %}
-    <div><a href="{% url 'add_parents' %}">학부모 등록</a></div>
-
-    <h3>세부항목</h3>
-
-    {% if children.count < 1 %}
-        <div><p>등록된 학생이 없습니다.</p></div>
-    {% else %}
-        {% for datum in children %}
-        <div class="child-detail">
-            <span>{{ datum.username }} | </span><span><a href="{% url 'additional' datum.id%}">수정</a></span>
-            <p>{{ datum.get_time }} </p>
-            <p><a href="{% url 'report' user.id %}">자세히 보기</a></p>
+    <div class="column">
+        <div class="column">
+            <div class="column" style="text-align: center;">
+                <p class="text is-center">안녕하세요! {{ user.name }}님</p>
+                <p class="text is-center">학부모 설정 화면입니다.</p>
+            </div>
         </div>
-    {% endfor %}
-    {% endif %}
+        <div class="column">
+            <div class="column" style="text-align: center;">
+                <a class='button' href="{% url 'router' user.router %}">이용시간 설정</a>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column " style="text-align: center;">
+                <a class="button" href="{% url 'add_parents' %}">학부모 등록</a>
+            </div>
 
-    <h3>학습기록</h3>
+        </div>
+    </div>
 
+
+    <div class="column" style="text-align: center;">
+        <a class="button"  href="{% url 'game' %}">학습 체험</a>
+{#        <a class="button is-small" href="{% url 'agreement_update' user.id %}">동의항목 확인</a>#}
+
+    </div>
+    <br>
+    <div class="columns is-mobile" style="overflow-x: scroll" >
+        {% if children.count < 1 %}
+            <div class="column" >
+                <div class="card">
+                    <div class="card-content">
+                        <p class="title">
+                            "등록된 학생이 없습니다."
+                        </p>
+                        {% comment %}
+                        <p class="subtitle">
+                          Jeff Atwood
+                        </p>
+                        {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {% for datum in children %}
+                <div class="column">
+                    <div class="column" style="margin: 5px; max-width: 500px; min-width: 300px">
+                        <div class="card" style="margin: 5px;">
+                            <div class="card-content">
+                                <p class="title">
+                                  {{ datum }}
+                                </p>
+                                <p class="subtitle">
+                                    {{ datum.name }}
+                                </p>
+                            <ul>
+                                <li>{{ datum.name }}</li>
+                                <li>{{ datum.get_time }}</li>
+                                <li>{{ datum.dt_updated }}</li>
+                            </ul>
+                            </div>
+                            <footer class="card-footer">
+                            <p class="card-footer-item">
+                              <span>
+                                정보 <a href="{% url 'additional' datum.id%}">수정</a>
+                              </span>
+                            </p>
+                            <p class="card-footer-item">
+                              <span>
+                                <a href="{% url 'report' user.id %}">자세히 보기</a>
+                              </span>
+                            </p>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+
+{% comment %}children
+        <h3>세부항목</h3>
+
+        {% if children.count < 1 %}
+            <div><p>등록된 학생이 없습니다.</p></div>
+        {% else %}
+            {% for datum in children %}
+            <div class="child-detail">
+                <span>{{ datum.username }} | </span><span><a href="{% url 'additional' datum.id%}">수정</a></span>
+                <p>{{ datum.get_time }} </p>
+                <p><a href="{% url 'report' user.id %}">자세히 보기</a></p>
+            </div>
+        {% endfor %}
+        {% endif %}
+
+        <h3>학습기록</h3>
+{% endcomment %}
 {% else %}
     {% comment %}children{% endcomment %}
-    <p>이용 가능 시간</p>
-    <span>{{ user.get_time }} / {{ router.max_time }}</span>
-    <div><a href="{% url 'game' %}">사용시간 늘리기</a></div>
-    <div>
-        <div>
-            {{ user.name }}
-        </div>
-        <div>
-            <span>오늘 wifi이용한 시간</span>
-            <span>획득한 시간</span>
-            <span>성취도</span>
+    <div class="column">
+        <p class="subtitle has-text-centered">이용 가능 시간</p>
+        <div style="text-align: center">
+            <span class="title has-text-centered">{{ user.get_time }} / {{ router.max_time }}  </span><span class="text">분</span>
         </div>
     </div>
-    <div>
-        <div>
-            <p>공부한 내용</p>
-        </div>
-        <div>
-            <p>list</p>
+    <br>
+    <div style="text-align: center">
+        <a class="button" href="{% url 'game' %}">사용시간 늘리기</a>
+    </div>
+
+    <div class="section">
+        <div class="column">
+            <div class="column" style="margin: 5px; max-width: 500px; min-width: 300px">
+                <div class="card" style="margin: 5px;">
+                    <div class="card-content">
+                        <p class="subtitle">{{ user.name }}</p>
+                        <div class="columns">
+                            <div class="column is-desktop">
+                                <span>오늘 wifi이용한 시간</span>
+                            </div>
+                            <div class="column is-desktop">
+                                <span>00시간</span>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-desktop">
+                                <span>성취도</span>
+                            </div>
+                            <div class="column is-desktop">
+                                <span>00시간</span>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-desktop">
+                                <span>획득한 시간</span>
+                            </div>
+                            <div class="column is-desktop">
+                                <span>00시간</span>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                    <p class="card-footer-item">
+                      <span>
+                        정보 <a href="{% url 'additional' user.id %}">수정</a>
+                      </span>
+                    </p>
+                    <p class="card-footer-item">
+                      <span>
+                        <a href="{% url 'report' user.id%}">자세히 보기</a>
+                      </span>
+                    </p>
+                    </footer>
+                </div>
+            </div>
         </div>
     </div>
+
 {% endif %}
 
     {% comment %}javascript{% endcomment %}
@@ -98,7 +200,6 @@
         }
     </script>
 
-</body>
 
-</html>
 
+{% endblock %}

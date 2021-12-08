@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block head %}
+  <style>
+      .input-margin{
+        margin-top: 1em;
+      }
+  </style>
+{% endblock %}
+{% block title %}회원가입{% endblock title %}
+
+{% block contents %}
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-6 is-offset-3">
+            <h4 class="title has-text-black">회원가입</h4>
+            <hr class="login-hr">
+                <form method="post">
+                {% csrf_token %}
+                    <div class="box login-box-style">
+                        <div class="input-margin">
+                            {{form.username |add_class:"input"|attr:"placeholder:아이디" | add_error_class:"error"}}
+                            {% for error in form.username.errors %}
+                                <article class="message is-danger">
+                                    <div class="message-body">
+                                        <p class="is-small">{{ error }}</p>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                        <div class="input-margin">
+                            {{form.password1 |add_class:"input"|attr:"placeholder:비밀번호" | add_error_class:"error"}}
+                            {% for error in form.password1.errors %}
+                            <article class="message is-danger">
+                                <div class="message-body ">
+                                    <p class="is-small">{{ error }}</p>
+                                </div>
+                            </article>
+                        {% endfor %}
+                        </div>
+                        <div class="input-margin">
+                            {{form.password2 |add_class:"input"|attr:"placeholder:비밀번호 확인" | add_error_class:"error"}}
+                            {% for error in form.password2.errors %}
+                            <article class="message is-danger">
+                                <div class="message-body is-small">
+                                    <p class="is-small">{{ error }}</p>
+                                </div>
+                            </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                <button class="button is-fullwidth is-success input-margin" type="submit"><strong>회원가입</strong> </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

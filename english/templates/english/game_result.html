@@ -1,17 +1,28 @@
-<div>
-    {% if result_message %}
-        <p>축하합니다. {{ router_get_time }}분을 획득했습니다.</p>
-        <p>와이파이 이용시간은 총 {{ total_get_time }}분 입니다.</p>
-    {% else %}
-        <p>아쉽게도 사용시간 획득에 실패했습니다.</p>
-        <p>와이파이 이용시간은 총 {{ total_get_time }}분 입니다.</p>
-    {% endif %}
+{% extends 'base.html' %}
+{% load static %}
 
-</div>
+{% block contents %}
+    <br>
+    <div class="section">
+        <div class="column">
+            {% if result_message %}
+                <p class="subtitle has-text-centered">축하합니다. <span class="title">{{ router_get_time }}</span> 분을 획득했습니다.</p>
+                <p class="subtitle has-text-centered">와이파이 이용 가능 시간은 총 <span class="title">{{ total_get_time }} </span> 분 입니다.</p>
+            {% else %}
+                <p>아쉽게도 사용시간 획득에 실패했습니다.</p>
+                <p>와이파이 이용 가능시간은 총 {{ total_get_time }}분 입니다.</p>
+            {% endif %}
+        </div>
 
-<div>
-    <a href="{% url 'index' %}">이동하기</a>
-</div>
+
+    </div>
+
+    <div style="text-align: center">
+        <a class="button" href="{% url 'report_detail' currunt_sheet.id%}">확인</a>
+    </div>
+
+{% endblock %}
+
 
 
 

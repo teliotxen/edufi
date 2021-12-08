@@ -1,6 +1,78 @@
-<form method="post">{% csrf_token %}
-{{ form.as_p }}
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
 
-    <p><input type="submit" value="OK"></p>
+{% block head %}
+    <script>
+        window.onload = function (){
+            if(!localStorage.getItem('edufi_router')){
+                document.querySelectorAll('.modal')[0].style.display = 'inline'
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block contents %}
+     <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Modal title</p>
+          <button class="delete" aria-label="close" onclick="negative()"></button>
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+            <p class="title">123</p>
+            <p>345</p>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="router_positive" class="button is-success">다시는 열지 않기</button>
+          <button id="router_cancel" class="button">닫기</button>
+        </footer>
+      </div>
+    </div>
+<form method="post">{% csrf_token %}
+    <div>
+        <label for="get_time">
+            학습 후 획득 시간
+        </label>
+
+        <div class="select">
+            {{ form.get_time }}
+        </div>
+    </div>
+    <div>
+        <label for="max_time">
+            최대 획득 가능 시간
+        </label>
+        <div class="select">
+            {{ form.max_time }}
+        </div>
+    </div>
+    <div>
+        <div>
+            {{ form.free_time | add_class:"checkbox"}}
+        </div>
+    </div>
+    <p><input class="button" type="submit" value="OK"></p>
 
 </form>
+    <script>
+        let routerPositive = document.getElementById('router_positive')
+        let routerCancel = document.getElementById('router_cancel')
+
+        console.log(routerPositive)
+
+        routerPositive.addEventListener('click',positive)
+        routerCancel.addEventListener('click',negative)
+
+        function positive(){
+            document.querySelectorAll('.modal')[0].style.display = 'none'
+            localStorage.setItem('edufi_router',true)
+        }
+
+        function negative(){
+            document.querySelectorAll('.modal')[0].style.display = 'none'
+        }
+    </script>
+{% endblock contents %}

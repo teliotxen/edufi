@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}로그인{% endblock title %}
+
+{% block head %}
+  <style>
+    .login-box-style{
+        margin-top:3em;
+        margin-bottom: 1em;
+        {#height: 400px;#}
+    }
+    form{
+        margin-top: 3em;
+        margin-bottom: 3em;
+    }
+    .submit-button{
+        margin-top: 2em;
+    }
+    .social-login-box{
+
+    }
+  </style>
+{% endblock %}
+
+{% block contents %}
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-6 is-offset-3">
+                <div class="box login-box-style">
+                    <h4 class="title has-text-black">로그인</h4>
+                    <hr class="login-hr">
+                    <p class="">아이디와 비밀번호를 정확히 입력해 주세요</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for error in form.non_field_errors %}
+                            <article class="message is-danger">
+                                <div class="message-body">
+                                    {{ error }}
+                                </div>
+                            </article>
+                        {% endfor %}
+                        <div>
+                            {{ form.login|add_class:"input" | attr:"placeholder:아이디" | add_error_class:"error" }}
+                            {% for error in form.login.errors %}
+                                <article class="message is-danger">
+                                    <div class="message-body">
+                                        {{ error }}
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div>
+                            {{ form.password|add_class:"input" | attr:"placeholder:비밀번호" | add_error_class:"error" }}
+                            {% for error in form.password.errors %}
+                                <article class="message is-danger">
+                                    <div class="message-body">
+                                        {{ error }}
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                        <button class="button is-fullwidth is-success submit-button" type="submit">로그인</button>
+                    </form>
+                </div>
+                <p class="has-text-grey">
+                    <a href="{% url 'account_signup' %}">회원가입</a> |
+                    <a href="{% url 'account_reset_password' %}">비밀번호 찾기</a>
+                </p>
+                <br>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock contents %}
+{% block footer %}
+<footer>
+  <section>
+    <div class="content has-text-centered footer-bottom-location">
+      <div class="container.is-fullhd">
+        <div class="column is-8 is-offset-2">
+          <div class="content is-normal">
+            <div class="columns">
+              <div class="column">
+                <p style="font-size: 10px;">
+                  (주)링그렛츠 대표: 진주현 서울특별시 금천구 디지털로9길 99 510호 <br>
+                  사업자등록번호 179-88-00141 <br>
+                  대표번호 070-8801-3039
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 8px">
+        COPYRIGHTⓒ 2021 LINGRETS.CO.LTD ALL RIGHTS RESERVED.
+      </p><br>
+    </div>
+  </section>
+</footer>
+{% endblock %}

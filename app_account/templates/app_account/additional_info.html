@@ -1,16 +1,37 @@
+{% extends "base.html" %}
 {% load widget_tweaks %}
-<html>
-<body>
-<h1>additional info</h1>
-</body>
-<form method="post">{% csrf_token %}
-    <p>이름: {{ form.name }}</p>
-    <p>이메일 : {{ form.email }}</p>
-    <p>생일 : {{ form.birthday | attr:"type:date"}}</p>
-    <p>학교 : {{ form.school }}</p>
-    <p>학년 : {{ year }}</p>
-    <p>성별 : {{ form.gender }}</p>
-    <p><input type="submit" value="OK"></p>
+{% block contents %}
 
-</form>
-</html>
+{% block head %}
+    <style>
+        .buttom{
+            margin-bottom:15px;
+        }
+    </style>
+{% endblock %}
+<div class="column has-text-centered">
+     <p class="title">아동 추가 정보</p>
+</div>
+<section>
+    <div class="column is-three-fifths is-offset-one-fifth" style="max-width: 500px">
+         <form method="post">{% csrf_token %}
+             <p class="buttom">이름: {{ form.name | add_class:"input"}}</p>
+             <p class="buttom">이메일 : {{ form.email | add_class:"input"}}</p>
+             <p class="buttom">생일 : {{ form.birthday | attr:"type:date" | add_class:"input"}}</p>
+             <p class="buttom">학교 : {{ form.school | add_class:"input"}}</p>
+             <p class="buttom">학년 : {{ year }}</p>
+             <div class="select buttom">
+                 {{ form.gender}}
+             </div>
+             <br>
+             <div style="text-align: center;">
+                 <input class="button buttom"  type="submit" value="저장하기">
+             </div>
+        </form>
+    </div>
+</section>
+
+
+
+{% endblock contents %}
+

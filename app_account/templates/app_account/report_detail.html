@@ -1,54 +1,96 @@
-<html>
-<head>
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block contents %}
+<a class="button" href="{% url 'report' report.user.id %}">돌아가기</a>
+<section class="hero is-info">
+  <div class="hero-body">
+    <p class="title">
+      학습 세부 내용
+    </p>
+    <p class="subtitle">
+      {{ report.user.name }}
+    </p>
+  </div>
+</section>
+<br>
+<saction>
+    <nav class="level is-mobile">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">테스트 레벨</p>
+                <p class="subtitle">{{ report.level }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">테스트 점수</p>
+                <p class="subtitle">{{ report.score }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+            <p class="heading">제출일</p>
+            <p class="subtitle">{{ report.dt_created|date:"Y-m-d"}}</p>
+            </div>
+        </div>
+    </nav>
+</saction>
 
-</head>
-<body>
-<div>
-    <p>{{ report.user.username }}</p>
-    <p>{{ report.user.name }}</p>
-    <p>{{ report.level }}</p>
-    <p>{{ report.score }}</p>
-    <p>{{ report.dt_created }}</p>
-</div>
+    <br>
+<section>
+    <div class="column">
+        <p>문제 : {{ report.korean1 }}</p>
+        <p>정답 : {{ report.sentence1 }}</p>
+        {% if report.answer1  != 't r ue' %}
+            <p>오답 : {{ report.answer1 }}</p>
+        {% endif %}
+        <p>{{ report.voca1 }}</p>
+    </div>
 
-<div>
-    <p>{{ report.sentence1 }}</p>
-    <p>{{ report.korean1 }}</p>
-    <p>{{ report.answer1 }}</p>
-    <p>{{ report.voca1 }}</p>
-</div>
+    <div class="column">
+        <p>문제 : {{ report.korean2 }}</p>
+        <p>정답 : {{ report.sentence2 }}</p>
+        {% if report.answer2  != 't r ue' %}
+            <p>오답 : {{ report.answer2 }}</p>
+        {% endif %}
+        <p>{{ report.voca2 }}</p>
+    </div>
 
-<div>
-    <p>{{ report.sentence2 }}</p>
-    <p>{{ report.korean2 }}</p>
-    <p>{{ report.answer2 }}</p>
-    <p>{{ report.voca2 }}</p>
-</div>
+    <div class="column">
+        <p>문제 : {{ report.korean3 }}</p>
+        <p>정답 : {{ report.sentence3 }}</p>
+        {% if report.answer3  != 't r ue' %}
+            <p>오답 : {{ report.answer3 }}</p>
+        {% endif %}
+        <p>{{ report.voca3 }}</p>
+    </div>
 
-<div>
-    <p>{{ report.sentence3 }}</p>
-    <p>{{ report.korean3 }}</p>
-    <p>{{ report.answer3 }}</p>
-    <p>{{ report.voca3 }}</p>
-</div>
+    <div class="column">
+        <p>문제 : {{ report.korean4 }}</p>
+        <p>정답 : {{ report.sentence4 }}</p>
 
-<div>
-    <p>{{ report.sentence4 }}</p>
-    <p>{{ report.korean4 }}</p>
-    <p>{{ report.answer4 }}</p>
-    <p>{{ report.voca4 }}</p>
-</div>
+       {% if report.answer4  != 't r ue' %}
+            <p>오답 : {{ report.answer4 }}</p>
+        {% endif %}
+        <p>{{ report.voca4 }}</p>
+    </div>
 
-<div>
-    <p>{{ report.sentence5 }}</p>
-    <p>{{ report.korean5 }}</p>
-    <p>{{ report.answer5 }}</p>
-    <p>{{ report.voca5 }}</p>
-</div>
+    <div class="column">
+        <p>문제 : {{ report.korean5 }}</p>
+        <p>정답 : {{ report.sentence5 }}</p>
 
+        {% if report.answer5  != 't r ue' %}
+            <p>오답 : {{ report.answer5 }}</p>
+        {% endif %}
+        <p>{{ report.voca5 }}</p>
+    </div>
 
-<a href="{% url 'report' report.user.id %}">돌아가기</a>
+</section>
 
 
-</body>
-</html>
+
+
+
+
+{% endblock contents %}
